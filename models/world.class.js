@@ -14,7 +14,7 @@ class World {
 	flasks = 0;
 
 	constructor(canvas, keyboard) {
-		this.ctx = canvas.getContext("2d");
+		this.ctx = canvas.getContext('2d');
 		this.canvas = canvas;
 		this.keyboard = keyboard;
 		this.draw();
@@ -22,10 +22,16 @@ class World {
 		this.run();
 	}
 
+	/**
+	 * connects the world to the character class
+	 */
 	setWorld() {
 		this.character.world = this;
 	}
 
+	/**
+	 * runs essential game mechanics repeatedly
+	 */
 	run() {
 		setInterval(() => {
 			this.checkCollisions();
@@ -34,13 +40,13 @@ class World {
 		}, 1000 / 60);
 	}
 
+	/**
+	 * checks if the player initialized a flask throw
+	 */
 	checkThrow() {
 		if (this.keyboard.D) {
 			if (this.flasks > 0) {
-				let bottle = new ThrowableObject(
-					this.character.x,
-					this.character.y
-				);
+				let bottle = new ThrowableObject(this.character.x, this.character.y);
 				this.throwableObjects.push(bottle);
 				throwing_sound.play();
 				this.keyboard.D = false;
@@ -50,6 +56,9 @@ class World {
 		}
 	}
 
+	/**
+	 * checks if the thrown flask has hit an enemy and applies damage and speed loss if needed
+	 */
 	checkBottleThrowCollision() {
 		this.throwableObjects.forEach((flask) => {
 			this.level.enemies.forEach((enemy) => {
@@ -68,6 +77,12 @@ class World {
 		});
 	}
 
+	/**
+	 * checks if the flask and the enemy are colliding and returns the positions
+	 * @param {Object} flask
+	 * @param {Object} enemy
+	 * @returns
+	 */
 	bottleCollision(flask, enemy) {
 		const xPos =
 			flask.x + flask.width >= enemy.x + enemy.offset.left &&
@@ -78,19 +93,22 @@ class World {
 		return xPos && yPos;
 	}
 
+	/**
+	 * checks character colliding functions
+	 */
 	checkCollisions() {
 		this.checkEnemyCollision();
 		this.checkCoinCollision();
 		this.checkFlaskCollision();
 	}
 
+	/**
+	 * checks if character has hit an enemy
+	 */
 	checkEnemyCollision() {
 		this.level.enemies.forEach((enemy) => {
 			if (this.character.isColliding(enemy)) {
-				if (
-					this.character.topCollision(enemy) &&
-					this.character.speedY < 0
-				) {
+				if (this.character.topCollision(enemy) && this.character.speedY < 0) {
 					enemy.speed = 0;
 					enemy.damage = 0;
 				} else if (enemy.damage > 0) {
@@ -101,6 +119,9 @@ class World {
 		});
 	}
 
+	/**
+	 * checks if character has hit a coin
+	 */
 	checkCoinCollision() {
 		this.level.coin.forEach((coin) => {
 			if (this.character.isColliding(coin)) {
@@ -111,6 +132,9 @@ class World {
 		});
 	}
 
+	/**
+	 * checks if character has hit a flask
+	 */
 	checkFlaskCollision() {
 		this.level.flasks.forEach((flask) => {
 			if (this.character.isColliding(flask)) {
@@ -123,18 +147,27 @@ class World {
 		});
 	}
 
+	/**
+	 * collects the coin and plays according sound
+	 */
 	collectCoin() {
 		coin_pickUp.currentTime = 0;
 		coin_pickUp.play();
 		this.coins++;
 	}
 
+	/**
+	 * collects the flask and plays according sound
+	 */
 	collectFlask() {
 		flask_pickUp.currentTime = 0;
 		flask_pickUp.play();
 		this.flasks++;
 	}
 
+	/**
+	 * adds different elements to the canvas
+	 */
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ctx.translate(this.camera_x, 0);
@@ -165,12 +198,20 @@ class World {
 		});
 	}
 
+	/**
+	 * iterates over every object in the array that is beeing added to the canvas
+	 * @param {array} objects
+	 */
 	addObjectsToMap(objects) {
 		objects.forEach((o) => {
 			this.addToMap(o);
 		});
 	}
 
+	/**
+	 * calls the draw function on the current object
+	 * @param {Object} mo
+	 */
 	addToMap(mo) {
 		if (mo.otherDirection) {
 			this.flipImage(mo);
@@ -182,6 +223,10 @@ class World {
 		}
 	}
 
+	/**
+	 * mirrors the object on the canvas
+	 * @param {Object} mo
+	 */
 	flipImage(mo) {
 		this.ctx.save();
 		this.ctx.translate(mo.width, 0);
@@ -189,6 +234,10 @@ class World {
 		mo.x = mo.x * -1;
 	}
 
+	/**
+	 * mirrors the object on the canvas back to normal
+	 * @param {Object} mo
+	 */
 	flipImageBack(mo) {
 		mo.x = mo.x * -1;
 		this.ctx.restore();

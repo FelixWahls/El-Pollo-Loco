@@ -10,21 +10,33 @@ let flask_pickUp = new Audio('audio/flask-collect.mp3');
 let hurt_sound = new Audio('audio/damage.mp3');
 let flask_breake = new Audio('audio/bottle-breake.mp3');
 
+/**
+ * calls starting functions
+ */
 function startGame() {
 	initLevel();
 	init();
 	hideStart();
 }
 
+/**
+ * checks if the user is on a touch device and displays touch buttons if the user is on touch device
+ */
 window.addEventListener('touchstart', () => {
 	document.getElementById('action-btns').classList.remove('d-none');
 });
 
+/**
+ * starts the world drawing
+ */
 function init() {
 	canvas = document.getElementById('canvas');
 	world = new World(canvas, keyboard);
 }
 
+/**
+ * initializes fullscreen mode and adjusts button height
+ */
 function showFullscreen() {
 	let container = document.getElementById('fullscreen');
 	enterFullscreen(container);
@@ -33,6 +45,9 @@ function showFullscreen() {
 	addButtonHeight();
 }
 
+/**
+ * initializes fullscreen mode end and adjusts button height
+ */
 function hideFullscreen() {
 	let container = document.getElementById('fullscreen');
 	exitFullscreen(container);
@@ -42,6 +57,10 @@ function hideFullscreen() {
 	console.log('ausgeführt');
 }
 
+/**
+ * enters fullscreen mode
+ * @param {HTMLElement} element
+ */
 function enterFullscreen(element) {
 	if (element.requestFullscreen) {
 		element.requestFullscreen();
@@ -52,6 +71,9 @@ function enterFullscreen(element) {
 	}
 }
 
+/**
+ * exits fullscreen mode
+ */
 function exitFullscreen() {
 	if (document.exitFullscreen) {
 		document.exitFullscreen();
@@ -60,33 +82,54 @@ function exitFullscreen() {
 	}
 }
 
+/**
+ * adjusts height of play buttons
+ */
 function addButtonHeight() {
 	document.querySelectorAll('.game-btn').forEach((el) => el.classList.add('bigger'));
 }
 
+/**
+ * removes bigger height of play buttons
+ */
 function removeButtonHeight() {
 	document.querySelectorAll('.game-btn').forEach((el) => el.classList.remove('bigger'));
 }
 
+/**
+ * hides the start screen
+ */
 function hideStart() {
 	document.getElementById('start-screen-img').classList.add('d-none');
 	document.getElementById('play-btn').classList.add('d-none');
 }
 
+/**
+ * clears every interval
+ */
 function clearAllIntervals() {
 	for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+/**
+ * redirects to the menu
+ */
 function goToMenu() {
 	window.location.reload();
 }
 
+/**
+ * restarts the current level
+ */
 function replay() {
 	document.getElementById('win-screen').classList.add('d-none');
 	document.getElementById('lose-screen').classList.add('d-none');
 	startGame();
 }
 
+/**
+ * checks what button was pressed
+ */
 window.addEventListener('keydown', (e) => {
 	if (e.keyCode == 37) {
 		keyboard.LEFT = true;
@@ -108,6 +151,9 @@ window.addEventListener('keydown', (e) => {
 	}
 });
 
+/**
+ * checks if a button was released
+ */
 window.addEventListener('keyup', (e) => {
 	if (e.keyCode == 37) {
 		keyboard.LEFT = false;
@@ -129,6 +175,9 @@ window.addEventListener('keyup', (e) => {
 	}
 });
 
+/**
+ * listens for tocuhes
+ */
 document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('left').addEventListener('touchstart', (e) => {
 		e.preventDefault();
@@ -171,14 +220,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 });
 
+/**
+ * displays lost screen
+ */
 function showLoseScreen() {
 	document.getElementById('lose-screen').classList.remove('d-none');
 }
 
+/**
+ * displays win screen
+ */
 function showWinScreen() {
 	document.getElementById('win-screen').classList.remove('d-none');
 }
 
+/**
+ * toggles the game-sound
+ */
 function toggleSound() {
 	let img = document.getElementById('sound-toggle');
 	let soundOff = img.src.endsWith('sound-off.png');
@@ -193,6 +251,10 @@ function toggleSound() {
 	}
 }
 
+/**
+ * mutes every game-sound
+ * @param {HTMLElement} img
+ */
 function muteAllSounds(img) {
 	img.src = 'img/icons/sound-on.png';
 	bg_sound.muted = false;
@@ -205,6 +267,10 @@ function muteAllSounds(img) {
 	flask_breake.muted = false;
 }
 
+/**
+ * eneables every game Sound
+ * @param {HTMLElement} img
+ */
 function enableAllSounds(img) {
 	img.src = 'img/icons/sound-off.png';
 	bg_sound.muted = true;

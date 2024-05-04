@@ -20,12 +20,20 @@ class StatusbarFlasks extends DrawableObject {
 		this.setPercentage(0);
 	}
 
+	/**
+	 * sets the current image path according to the number of collected flasks * 20 (to get percantage from 100%)
+	 * @param {number} percentage
+	 */
 	setPercentage(percentage) {
 		this.percentage = percentage;
 		let imagePath = this.IMAGES_FLASKS_BAR[this.resolveImageIndex()];
 		this.img = this.imageCache[imagePath];
 	}
 
+	/**
+	 *
+	 * @returns the number of the image that has to be shown
+	 */
 	resolveImageIndex() {
 		if (this.percentage == 100) {
 			return 5;

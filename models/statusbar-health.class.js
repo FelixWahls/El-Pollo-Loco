@@ -20,12 +20,20 @@ class StatusbarHealth extends DrawableObject {
 		this.setPercentage(100);
 	}
 
+	/**
+	 * sets the current image path according to the health percentage
+	 * @param {number} percentage
+	 */
 	setPercentage(percentage) {
 		this.percentage = percentage;
 		let imagePath = this.IMAGES_HEALTH[this.resolveImageIndex()];
 		this.img = this.imageCache[imagePath];
 	}
 
+	/**
+	 *
+	 * @returns the number of the image that has to be shown
+	 */
 	resolveImageIndex() {
 		if (this.percentage == 100) {
 			return 5;

@@ -17,6 +17,10 @@ class StatusbarCoins extends DrawableObject {
 		this.height = 50;
 	}
 
+	/**
+	 * shows the number of collected coins on the screen
+	 * @param {CanvasElement} ctx
+	 */
 	drawCounter(ctx) {
 		ctx.font = '25px Arial';
 		ctx.fillStyle = 'black';

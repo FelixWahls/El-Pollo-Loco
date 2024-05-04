@@ -65,6 +65,9 @@ class Endboss extends MovableObject {
 		this.animate();
 	}
 
+	/**
+	 * compares the characters current position with the position of the endboss
+	 */
 	animate() {
 		let i = 0;
 		setInterval(() => {
@@ -74,20 +77,14 @@ class Endboss extends MovableObject {
 				i++;
 			} else if (this.hadFirstContact) {
 				this.getRelPosition();
-				if (this.isDead()) {
-					this.endGame();
-					bg_sound.pause();
-				} else if (this.isHurt()) {
-					this.playAnimation(this.IMAGES_HURT);
-				} else if (this.characterIsInRange()) {
-					this.endbossAttack();
-				} else {
-					this.endbossWalk();
-				}
+				this.getAnimations();
 			}
 		}, 200);
 	}
 
+	/**
+	 * lets the Endboss move to the other direction if the character is to the right of the endboss
+	 */
 	getRelPosition() {
 		if (world.character.x < this.x + this.offset.left + this.width / 2) {
 			this.otherDirection = false;
@@ -96,10 +93,17 @@ class Endboss extends MovableObject {
 		}
 	}
 
+	/**
+	 *
+	 * @returns if the character is in attack-range
+	 */
 	characterIsInRange() {
 		return this.x - (world.character.x + world.character.width) < 100;
 	}
 
+	/**
+	 * plays attack animation and bumps up the speed for the time
+	 */
 	endbossAttack() {
 		this.playAnimation(this.IMAGES_ATTACK);
 		this.speed = 30;
@@ -110,6 +114,9 @@ class Endboss extends MovableObject {
 		}
 	}
 
+	/**
+	 * lets the endboss walk
+	 */
 	endbossWalk() {
 		this.speed = 12;
 		this.playAnimation(this.IMAGES_WALKING);
@@ -120,6 +127,9 @@ class Endboss extends MovableObject {
 		}
 	}
 
+	/**
+	 * shows dead animation once and win screen
+	 */
 	endGame() {
 		this.currImg = 0;
 		this.playAnimation(this.IMAGES_DEAD);
@@ -128,5 +138,21 @@ class Endboss extends MovableObject {
 		}
 		clearAllIntervals();
 		showWinScreen();
+	}
+
+	/**
+	 * checks the current state of the Endboss
+	 */
+	getAnimations() {
+		if (this.isDead()) {
+			this.endGame();
+			bg_sound.pause();
+		} else if (this.isHurt()) {
+			this.playAnimation(this.IMAGES_HURT);
+		} else if (this.characterIsInRange()) {
+			this.endbossAttack();
+		} else {
+			this.endbossWalk();
+		}
 	}
 }

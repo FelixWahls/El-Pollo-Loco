@@ -68,55 +68,18 @@ class Character extends MovableObject {
 		this.animate();
 	}
 
+	/**
+	 * checks states and conditions in a set interval
+	 */
 	animate() {
-		setInterval(() => {
-			this.playAnimation(this.IMAGES_IDLE);
-		}, 250);
-
-		setInterval(() => {
-			if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-				this.otherDirection = false;
-				this.moveRight();
-			}
-			if (this.world.keyboard.LEFT && this.x > -490) {
-				this.otherDirection = true;
-				this.moveLeft();
-			}
-			if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-				this.jump();
-				jumping_sound.play();
-				this.currImg = 0;
-			}
-
-			this.world.camera_x = -this.x + 200;
-		}, 1000 / 60);
-
-		setInterval(() => {
-			walking_sound.pause();
-
-			if (this.isDead()) {
-				this.playAnimation(this.IMAGES_DEAD);
-				clearAllIntervals();
-				showLoseScreen();
-				bg_sound.pause();
-			} else if (this.isHurt()) {
-				this.playAnimation(this.IMAGES_HURT);
-				hurt_sound.play();
-			} else if (this.isAboveGround()) {
-				this.getJumpingImg();
-				this.playAnimation(this.IMAGES_JUMPING);
-			} else {
-				if (
-					!this.isAboveGround() &&
-					(this.world.keyboard.RIGHT || this.world.keyboard.LEFT)
-				) {
-					this.playAnimation(this.IMAGES_WALKING);
-					walking_sound.play();
-				}
-			}
-		}, 50);
+		setInterval(() => this.playAnimation(this.IMAGES_IDLE), 250);
+		setInterval(() => this.getMovement(), 1000 / 60);
+		setInterval(() => this.getCharacterStatus(), 50);
 	}
 
+	/**
+	 * calculates the current Image for jumping based on the speedY value
+	 */
 	getJumpingImg() {
 		if (this.speedY >= 3 && this.currImg > 1) {
 			this.currImg = 1;
@@ -125,5 +88,95 @@ class Character extends MovableObject {
 		} else if (this.speedY <= -3) {
 			this.currImg = 3;
 		}
+	}
+
+	/**
+	 * executes the movement of the character
+	 */
+	getMovement() {
+		if (this.canMoveRight()) {
+			this.otherDirection = false;
+			this.moveRight();
+		}
+		if (this.canMoveLeft()) {
+			this.otherDirection = true;
+			this.moveLeft();
+		}
+		if (this.canJump()) {
+			this.jump();
+			jumping_sound.play();
+			this.currImg = 0;
+		}
+		this.world.camera_x = -this.x + 200;
+	}
+
+	/**
+	 * checks the current status of the character and calls functions accordingly
+	 */
+	getCharacterStatus() {
+		walking_sound.pause();
+		if (this.isDead()) {
+			this.loseGame();
+		} else if (this.isHurt()) {
+			this.playAnimation(this.IMAGES_HURT);
+			hurt_sound.play();
+		} else if (this.isAboveGround()) {
+			this.getJumpingImg();
+			this.playAnimation(this.IMAGES_JUMPING);
+		} else {
+			this.walk();
+		}
+	}
+
+	/**
+	 *
+	 * @returns if the Character is able to move right
+	 */
+	canMoveRight() {
+		return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+	}
+
+	/**
+	 *
+	 * @returns if the Character is able to move left
+	 */
+	canMoveLeft() {
+		return this.world.keyboard.LEFT && this.x > -490;
+	}
+
+	/**
+	 *
+	 * @returns if the Character is able to jump
+	 */
+	canJump() {
+		return this.world.keyboard.SPACE && !this.isAboveGround();
+	}
+
+	/**
+	 * calls the lost screen and plays dead animation once
+	 */
+	loseGame() {
+		this.playAnimation(this.IMAGES_DEAD);
+		clearAllIntervals();
+		showLoseScreen();
+		bg_sound.pause();
+	}
+
+	/**
+	 * plays walking images and sound if the character is moving on the ground
+	 */
+	walk() {
+		if (this.characterOnGround()) {
+			this.playAnimation(this.IMAGES_WALKING);
+			walking_sound.play();
+		}
+	}
+
+	/**
+	 *
+	 * @returns if the character is on the ground and moving
+	 */
+	characterOnGround() {
+		return !this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT);
 	}
 }

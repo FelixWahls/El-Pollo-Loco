@@ -6,6 +6,9 @@ class MovableObject extends DrawableObject {
 	lastHit = 0;
 	energy = 100;
 
+	/**
+	 * lets Items and Character fall to the ground
+	 */
 	applyGravity() {
 		setInterval(() => {
 			if (this.isAboveGround() || this.speedY > 0) {
@@ -15,10 +18,19 @@ class MovableObject extends DrawableObject {
 		}, 1000 / 40);
 	}
 
+	/**
+	 *
+	 * @returns if the character or the items is above the ground
+	 */
 	isAboveGround() {
 		return this.y < 430 - this.height;
 	}
 
+	/**
+	 *
+	 * @param {Object} mo
+	 * @returns boolean if two things are colliding
+	 */
 	isColliding(mo) {
 		return (
 			this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -28,6 +40,11 @@ class MovableObject extends DrawableObject {
 		);
 	}
 
+	/**
+	 *
+	 * @param {Object} mo
+	 * @returns if the Bottom is colliding with the top 10% of the objects top frame
+	 */
 	topCollision(mo) {
 		return (
 			this.y + this.height - this.offset.bottom >= mo.y + mo.offset.top &&
@@ -35,6 +52,10 @@ class MovableObject extends DrawableObject {
 		);
 	}
 
+	/**
+	 * removes Health or Energy from the hurt Object based on the hitting objects damage
+	 * @param {Object} mo
+	 */
 	hit(mo) {
 		if (!this.isHurt()) {
 			this.energy -= mo.damage;
@@ -46,16 +67,28 @@ class MovableObject extends DrawableObject {
 		}
 	}
 
+	/**
+	 *
+	 * @returns if the time since the last hit is lower than 1 second
+	 */
 	isHurt() {
 		let timePassed = new Date().getTime() - this.lastHit;
 		timePassed = timePassed / 1000;
 		return timePassed < 1;
 	}
 
+	/**
+	 *
+	 * @returns if the current elements energy is 0
+	 */
 	isDead() {
 		return this.energy == 0;
 	}
 
+	/**
+	 * iterates over the images from the given array repeatedly
+	 * @param {array} images
+	 */
 	playAnimation(images) {
 		let i = this.currImg % images.length;
 		let path = images[i];
@@ -63,14 +96,23 @@ class MovableObject extends DrawableObject {
 		this.currImg++;
 	}
 
+	/**
+	 * lets the Object fly into the air
+	 */
 	jump() {
 		this.speedY = 17;
 	}
 
+	/**
+	 * lets the object move right
+	 */
 	moveRight() {
 		this.x += this.speed;
 	}
 
+	/**
+	 * lets the object move left
+	 */
 	moveLeft() {
 		this.x -= this.speed;
 	}

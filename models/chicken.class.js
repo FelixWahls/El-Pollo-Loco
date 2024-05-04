@@ -18,6 +18,9 @@ class Chicken extends MovableObject {
 
 	IMAGES_DEAD = ['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
 
+	/**
+	 * loads starting Image and sets random x-position on the ground
+	 */
 	constructor() {
 		super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
 		this.loadImages(this.IMAGES_WALKING);
@@ -28,20 +31,26 @@ class Chicken extends MovableObject {
 
 		this.animate();
 	}
-	animate() {
-		setInterval(() => {
-			this.moveLeft();
-		}, 1000 / 60);
 
-		setInterval(() => {
-			if (this.speed > 0) {
-				this.playAnimation(this.IMAGES_WALKING);
-			} else {
-				this.playAnimation(this.IMAGES_DEAD);
-				setTimeout(() => {
-					this.x = -4000;
-				}, 500);
-			}
-		}, 250);
+	/**
+	 * lets the chicken move to the left and checks the speed repeatedly
+	 */
+	animate() {
+		setInterval(() => this.moveLeft(), 1000 / 60);
+		setInterval(() => this.playImages(), 250);
+	}
+
+	/**
+	 * plays walking image as long as the speed is higher than 0
+	 */
+	playImages() {
+		if (this.speed > 0) {
+			this.playAnimation(this.IMAGES_WALKING);
+		} else {
+			this.playAnimation(this.IMAGES_DEAD);
+			setTimeout(() => {
+				this.x = -4000;
+			}, 500);
+		}
 	}
 }

@@ -3,6 +3,9 @@ class Cloud extends MovableObject {
 	height = 300;
 	width = 450;
 
+	/**
+	 * loads starting image and sets random x-position on the canvas
+	 */
 	constructor() {
 		super().loadImage('img/5_background/layers/4_clouds/1.png');
 		this.x = Math.random() * 3550;
@@ -11,6 +14,9 @@ class Cloud extends MovableObject {
 		this.animate();
 	}
 
+	/**
+	 * lets the image move to the left
+	 */
 	animate() {
 		setInterval(() => {
 			this.moveLeft();
