@@ -34,10 +34,16 @@ function init() {
 	world = new World(canvas, keyboard);
 }
 
+/**
+ * opens guide window
+ */
 function showHelp() {
 	document.getElementById('how-to').classList.remove('d-none');
 }
 
+/**
+ * closes guide window
+ */
 function closeHelp() {
 	document.getElementById('how-to').classList.add('d-none');
 }
