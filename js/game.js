@@ -34,6 +34,14 @@ function init() {
 	world = new World(canvas, keyboard);
 }
 
+function showHelp() {
+	document.getElementById('how-to').classList.remove('d-none');
+}
+
+function closeHelp() {
+	document.getElementById('how-to').classList.add('d-none');
+}
+
 /**
  * initializes fullscreen mode and adjusts button height
  */

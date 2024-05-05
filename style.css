@@ -182,6 +182,51 @@ canvas {
 	z-index: 20;
 }
 
+.how-to-play {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: #cfb20a;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: scroll;
+	z-index: 30;
+	padding: 16px;
+}
+
+.how-to-play::-webkit-scrollbar {
+	display: none;
+}
+
+h2 {
+	font-size: 40px;
+	margin: 0;
+	margin-bottom: 16px;
+}
+
+.close-btn {
+	position: absolute;
+	top: 16px;
+	right: 24px;
+	cursor: pointer;
+	width: 32px;
+}
+
+.guide-row {
+	font-size: 20px;
+	letter-spacing: 1px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.guide-row div img {
+	width: 40px;
+	margin-right: 16px;
+	margin-left: 16px;
+}
+
 @media only screen and (max-width: 720px) {
 	h1 {
 		display: none;

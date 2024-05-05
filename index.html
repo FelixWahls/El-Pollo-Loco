@@ -34,6 +34,63 @@
 		</div>
 		<h1>El Pollo Loco</h1>
 		<div class="game-gui" id="fullscreen">
+			<div class="how-to-play d-none" id="how-to">
+				<h2>How to play</h2>
+				<img src="/img/icons/close.png" class="close-btn" onclick="closeHelp()" />
+				<div class="guide-row">
+					<div class="guide-row-btns keyboard">
+						<img src="/img/icons/rechte-pfeiltaste.png" alt="" />
+					</div>
+					<p>or</p>
+					<div class="guide-row-btns touch">
+						<img src="/img/icons/right.png" alt="" />
+					</div>
+					<p>
+						Use the right arrow-key on your Keyboard or the right arrow on the bottom of
+						the Screen (only on mobile) to let Pepe walk to the right.
+					</p>
+				</div>
+				<div class="guide-row">
+					<div class="guide-row-btns keyboard">
+						<img src="/img/icons/linke-pfeiltaste.png" alt="" />
+					</div>
+					<p>or</p>
+					<div class="guide-row-btns touch">
+						<img src="/img/icons/left.png" alt="" />
+					</div>
+					<p>
+						Use the left arrow-key on your Keyboard or the left arrow on the bottom of
+						the Screen (only on mobile) to let Pepe walk to the left.
+					</p>
+				</div>
+				<div class="guide-row">
+					<div class="guide-row-btns keyboard">
+						<img src="/img/icons/leertaste.png" alt="" />
+					</div>
+					<p>or</p>
+					<div class="guide-row-btns touch">
+						<img src="/img/icons/up.png" alt="" />
+					</div>
+					<p>
+						Use the Spacebar on your Keyboard or the up arrow on the bottom of the
+						Screen (only on mobile) to let Pepe jump into the air.
+					</p>
+				</div>
+				<div class="guide-row">
+					<div class="guide-row-btns keyboard">
+						<img src="/img/icons/d-taste.png" alt="" />
+					</div>
+					<p>or</p>
+					<div class="guide-row-btns touch">
+						<img src="/img/icons/throw.png" alt="" />
+					</div>
+					<p>
+						Use the D-key on your Keyboard or the throw button on the bottom of the
+						Screen (only on mobile) to let Pepe throw a Flask into the direction he is
+						currently facing.
+					</p>
+				</div>
+			</div>
 			<div class="end-screen win-screen d-none" id="win-screen">
 				<div class="end-btns">
 					<button class="replay" onclick="replay()">Replay</button>
@@ -53,6 +110,7 @@
 				class="start-screen-img" />
 			<div class="top-btns-container">
 				<div class="btn-layout top-btns">
+					<img src="/img/icons/guide.png" alt="" onclick="showHelp()" class="game-btn" />
 					<img
 						src="/img/icons/fullscreen.png"
 						alt=""
