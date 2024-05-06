@@ -253,24 +253,24 @@ function showWinScreen() {
  */
 function toggleSound() {
 	let img = document.getElementById('sound-toggle');
-	let soundOff = img.src.endsWith('sound-off.png');
+	let soundOn = img.src.endsWith('sound-on.png');
 	bg_sound.loop = true;
 	bg_sound.volume = 0.05;
 	bg_sound.play();
 
-	if (soundOff) {
+	if (soundOn) {
+		img.src = 'img/icons/sound-off.png';
 		muteAllSounds(img);
 	} else {
+		img.src = 'img/icons/sound-on.png';
 		enableAllSounds(img);
 	}
 }
 
 /**
  * mutes every game-sound
- * @param {HTMLElement} img
  */
-function muteAllSounds(img) {
-	img.src = 'img/icons/sound-on.png';
+function enableAllSounds() {
 	bg_sound.muted = false;
 	walking_sound.muted = false;
 	jumping_sound.muted = false;
@@ -283,10 +283,8 @@ function muteAllSounds(img) {
 
 /**
  * eneables every game Sound
- * @param {HTMLElement} img
  */
-function enableAllSounds(img) {
-	img.src = 'img/icons/sound-off.png';
+function muteAllSounds() {
 	bg_sound.muted = true;
 	walking_sound.muted = true;
 	jumping_sound.muted = true;

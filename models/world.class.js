@@ -49,6 +49,7 @@ class World {
 				let bottle = new ThrowableObject(this.character.x, this.character.y);
 				this.throwableObjects.push(bottle);
 				throwing_sound.play();
+				bottle.thrown = true;
 				this.keyboard.D = false;
 				this.flasks--;
 				this.statusBarFlasks.setPercentage(this.flasks * 20);
@@ -171,15 +172,27 @@ class World {
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ctx.translate(this.camera_x, 0);
+		this.drawMovableObjects();
+		this.drawStaticObjects();
+		this.addToMap(this.character);
+		this.ctx.translate(-this.camera_x, 0);
 
+		let self = this;
+		requestAnimationFrame(function () {
+			self.draw();
+		});
+	}
+
+	drawMovableObjects() {
 		this.addObjectsToMap(this.level.backgroundObjects);
 		this.addObjectsToMap(this.level.coin);
 		this.addObjectsToMap(this.level.flasks);
 		this.addObjectsToMap(this.level.clouds);
 		this.addObjectsToMap(this.level.enemies);
 		this.addObjectsToMap(this.throwableObjects);
+	}
 
-		/* Space for fixed Objects */
+	drawStaticObjects() {
 		this.ctx.translate(-this.camera_x, 0);
 		this.addToMap(this.statusBarHealth);
 		this.addToMap(this.statusBarCoins);
@@ -187,15 +200,6 @@ class World {
 		this.addToMap(this.statusBarFlasks);
 		this.addToMap(this.statusBarEndboss);
 		this.ctx.translate(this.camera_x, 0);
-
-		this.addToMap(this.character);
-		this.ctx.translate(-this.camera_x, 0);
-
-		//draw() wird immer wieder aufgerufen
-		let self = this;
-		requestAnimationFrame(function () {
-			self.draw();
-		});
 	}
 
 	/**

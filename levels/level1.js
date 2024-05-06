@@ -8,6 +8,12 @@ function initLevel() {
 			new Chicken(),
 			new Chicken(),
 			new Chicken(),
+			new Chicken(),
+			new Chicken(),
+			new Chicken(),
+			new SmallChicken(),
+			new SmallChicken(),
+			new SmallChicken(),
 			new SmallChicken(),
 			new SmallChicken(),
 			new SmallChicken(),
@@ -42,9 +48,16 @@ function initLevel() {
 			new Flask(1780, 1),
 			new Flask(2030, 1),
 			new Flask(2070, 1),
-			new Flask(2100, 1),
+			new Flask(2200, 1),
+			new Flask(2290, 0),
+			new Flask(2400, 1),
+			new Flask(2700, 0),
+			new Flask(2750, 1),
+			new Flask(2890, 1),
 		],
 		[
+			new Cloud(),
+			new Cloud(),
 			new Cloud(),
 			new Cloud(),
 			new Cloud(),
@@ -86,6 +99,11 @@ function initLevel() {
 			new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 719 * 4),
 			new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 719 * 4),
 			new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 719 * 4),
+
+			new BackgroundObject('img/5_background/layers/air.png', 719 * 5),
+			new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719 * 5),
+			new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 5),
+			new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 5),
 		]
 	);
 }

@@ -22,6 +22,7 @@ class ThrowableObject extends MovableObject {
 		bottom: 10,
 	};
 	damage = 20;
+	thrown = false;
 	hitted = false;
 
 	constructor(x, y) {
@@ -56,7 +57,7 @@ class ThrowableObject extends MovableObject {
 	getBottleMovement() {
 		if (world.character.otherDirection) {
 			this.x -= 6;
-		} else {
+		} else if (!world.character.otherDirection) {
 			this.x += 6;
 		}
 	}
@@ -70,6 +71,9 @@ class ThrowableObject extends MovableObject {
 			this.currImg = 0;
 			flask_breake.play();
 			clearInterval(checkFlaskStatus);
+			if (this.speedY > 0) {
+				this.speedY = 0;
+			}
 		}
 	}
 
