@@ -22,6 +22,19 @@ class Character extends MovableObject {
 		'img/2_character_pepe/1_idle/idle/I-10.png',
 	];
 
+	IMAGES_IDLE_LONG = [
+		'img/2_character_pepe/1_idle/long_idle/I-11.png',
+		'img/2_character_pepe/1_idle/long_idle/I-12.png',
+		'img/2_character_pepe/1_idle/long_idle/I-13.png',
+		'img/2_character_pepe/1_idle/long_idle/I-14.png',
+		'img/2_character_pepe/1_idle/long_idle/I-15.png',
+		'img/2_character_pepe/1_idle/long_idle/I-16.png',
+		'img/2_character_pepe/1_idle/long_idle/I-17.png',
+		'img/2_character_pepe/1_idle/long_idle/I-18.png',
+		'img/2_character_pepe/1_idle/long_idle/I-19.png',
+		'img/2_character_pepe/1_idle/long_idle/I-20.png',
+	];
+
 	IMAGES_WALKING = [
 		'img/2_character_pepe/2_walk/W-21.png',
 		'img/2_character_pepe/2_walk/W-22.png',
@@ -55,11 +68,13 @@ class Character extends MovableObject {
 		'img/2_character_pepe/5_dead/D-57.png',
 	];
 	world;
+	lastAction;
 
 	constructor() {
 		super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
 		this.x = 100;
 		this.loadImages(this.IMAGES_IDLE);
+		this.loadImages(this.IMAGES_IDLE_LONG);
 		this.loadImages(this.IMAGES_WALKING);
 		this.loadImages(this.IMAGES_JUMPING);
 		this.loadImages(this.IMAGES_DEAD);
@@ -72,7 +87,8 @@ class Character extends MovableObject {
 	 * checks states and conditions in a set interval
 	 */
 	animate() {
-		setInterval(() => this.playAnimation(this.IMAGES_IDLE), 250);
+		this.lastAction = new Date().getTime();
+		setInterval(() => this.getIdleAnimation(), 250);
 		setInterval(() => this.getMovement(), 1000 / 60);
 		setInterval(() => this.getCharacterStatus(), 50);
 	}
@@ -90,6 +106,20 @@ class Character extends MovableObject {
 		}
 	}
 
+	getIdleAnimation() {
+		if (!this.longIdle()) {
+			this.playAnimation(this.IMAGES_IDLE);
+		} else {
+			this.playAnimation(this.IMAGES_IDLE_LONG);
+		}
+	}
+
+	longIdle() {
+		let timePassed = new Date().getTime() - this.lastAction;
+		timePassed = timePassed / 1000;
+		return timePassed > 6;
+	}
+
 	/**
 	 * executes the movement of the character
 	 */
@@ -97,13 +127,16 @@ class Character extends MovableObject {
 		if (this.canMoveRight()) {
 			this.otherDirection = false;
 			this.moveRight();
+			this.lastAction = new Date().getTime();
 		}
 		if (this.canMoveLeft()) {
 			this.otherDirection = true;
 			this.moveLeft();
+			this.lastAction = new Date().getTime();
 		}
 		if (this.canJump()) {
 			this.jump();
+			this.lastAction = new Date().getTime();
 			jumping_sound.play();
 			this.currImg = 0;
 		}
@@ -119,6 +152,7 @@ class Character extends MovableObject {
 			this.loseGame();
 		} else if (this.isHurt()) {
 			this.playAnimation(this.IMAGES_HURT);
+			this.lastAction = new Date().getTime();
 			hurt_sound.play();
 		} else if (this.isAboveGround()) {
 			this.getJumpingImg();

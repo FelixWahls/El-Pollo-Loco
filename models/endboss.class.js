@@ -10,7 +10,7 @@ class Endboss extends MovableObject {
 		right: 60,
 		bottom: 90,
 	};
-	speed = 25;
+	speed = 15;
 	hadFirstContact = false;
 
 	IMAGES_ALERT = [
@@ -79,7 +79,7 @@ class Endboss extends MovableObject {
 				this.getRelPosition();
 				this.getAnimations();
 			}
-		}, 200);
+		}, 100);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Endboss extends MovableObject {
 	 */
 	endbossAttack() {
 		this.playAnimation(this.IMAGES_ATTACK);
-		this.speed = 40;
+		this.speed = 30;
 		if (this.otherDirection) {
 			this.moveRight();
 		} else {
@@ -118,7 +118,7 @@ class Endboss extends MovableObject {
 	 * lets the endboss walk
 	 */
 	endbossWalk() {
-		this.speed = 25;
+		this.speed = 15;
 		this.playAnimation(this.IMAGES_WALKING);
 		if (this.otherDirection) {
 			this.moveRight();

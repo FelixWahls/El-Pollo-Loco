@@ -42,13 +42,13 @@ class ThrowableObject extends MovableObject {
 	throw() {
 		this.speedY = 20;
 		this.applyGravity();
-		const bottleX = setInterval(() => this.getBottleMovement(), 1000 / 60);
+		this.getBottleMovement();
 
 		const checkFlaskStatus = setInterval(
 			() => this.getFlaskStatus(checkFlaskStatus),
 			1000 / 60
 		);
-		setInterval(() => this.getFlaskAnimations(bottleX), 50);
+		setInterval(() => this.getFlaskAnimations(), 50);
 	}
 
 	/**
@@ -56,9 +56,19 @@ class ThrowableObject extends MovableObject {
 	 */
 	getBottleMovement() {
 		if (world.character.otherDirection) {
-			this.x -= 6;
+			let bottle = setInterval(() => {
+				this.x -= 6;
+				if (this.y == 370 || this.hitted) {
+					clearInterval(bottle);
+				}
+			}, 1000 / 60);
 		} else if (!world.character.otherDirection) {
-			this.x += 6;
+			let bottle = setInterval(() => {
+				this.x += 6;
+				if (this.y == 370 || this.hitted) {
+					clearInterval(bottle);
+				}
+			}, 1000 / 60);
 		}
 	}
 
@@ -81,11 +91,10 @@ class ThrowableObject extends MovableObject {
 	 * plays the rotating images or the exploding images based on the flask status
 	 * @param {Function} bottleX
 	 */
-	getFlaskAnimations(bottleX) {
+	getFlaskAnimations() {
 		if (this.y < 370 && !this.hitted) {
 			this.playAnimation(this.IMAGES_SALSA_ROTATE);
 		} else if (this.y == 370 || this.hitted) {
-			clearInterval(bottleX);
 			this.hitted = false;
 			this.playAnimation(this.IMAGES_SALSA_EXPLODE);
 			if (this.currImg == 5) {
